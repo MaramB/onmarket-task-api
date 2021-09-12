@@ -55,7 +55,6 @@ export class CustomersController {
     @Body('phone') customerPhone: number,
     @Body('address') customerAddress,
   ) {
-    console.log(customerAddress);
     if (!customerName || !customerEmail || !customerPhone || !customerAddress) throw new NotFoundException('Please provide all customer data.');
 
     const newCustomer = this.customersService.insertCustomer(
