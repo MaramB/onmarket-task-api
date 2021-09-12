@@ -11,7 +11,7 @@ import { CustomersService } from './customers.service';
 
 @Controller('Customers')
 export class CustomersController {
-  constructor(private readonly customersService: CustomersService) {}
+  constructor(private readonly customersService: CustomersService) { }
 
   @Post()
   @ApiBody({
@@ -31,8 +31,20 @@ export class CustomersController {
           example: "01120028206"
         },
         address: {
-          type: "string",
-          example: "Alexandria"
+          type: "array",
+          items: {
+            type: "object",
+            properties: {
+              address: {
+                type: "string",
+                example: "adrress 1"
+              },
+              isDefault: {
+                type: "boolean",
+                example: true
+              },
+            }
+          }
         },
       }
     }
@@ -43,8 +55,9 @@ export class CustomersController {
     @Body('phone') customerPhone: number,
     @Body('address') customerAddress,
   ) {
+    console.log(customerAddress);
     if (!customerName || !customerEmail || !customerPhone || !customerAddress) throw new NotFoundException('Please provide all customer data.');
-    
+
     const newCustomer = this.customersService.insertCustomer(
       customerName,
       customerEmail,
